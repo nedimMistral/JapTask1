@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.Models;
 using Models;
 
-namespace api.Models
+namespace api.Dtos
 {
-    public class Ingredient : BaseModel
+    public class IngredientDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public double UnitPrice { get; set; }
         public double UnitQuantity { get; set; }

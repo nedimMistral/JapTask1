@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace api.Models
 {
-    public class Category : BaseModel
+    public class BaseModel
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

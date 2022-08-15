@@ -56,6 +56,7 @@ namespace api.Service.AuthService
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            user.CreatedAt = DateTime.Now;
 
             _ctx.Users.Add(user);
             await _ctx.SaveChangesAsync();

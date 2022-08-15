@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.Dtos.User;
+using api.Dtos;
 using api.Models;
 using api.Service.AuthService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
+    
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authSvc;
@@ -19,12 +22,13 @@ namespace api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto req)
+        public async Task<ActionResult<ServiceResponse<int>>> Register(UserLoginDto req)
         {
             var res = await _authSvc.Register(
                 new User { Username = req.Username }, req.Password
             );
-            if(!res.Success) {
+            if (!res.Success)
+            {
                 return BadRequest(res);
             }
             return Ok(res);
@@ -34,7 +38,8 @@ namespace api.Controllers
         public async Task<ActionResult<ServiceResponse<string>>> Login(UserLoginDto req)
         {
             var res = await _authSvc.Login(req.Username, req.Password);
-            if(!res.Success) {
+            if (!res.Success)
+            {
                 return BadRequest(res);
             }
             return Ok(res);
