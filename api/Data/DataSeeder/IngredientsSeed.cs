@@ -29,7 +29,7 @@ namespace api.Data.DataSeeder
                     Id = 3,
                     Name = "All-purpose flour",
                     UnitOfMeasure = UOM.gram,
-                    UnitPrice = 0.1,
+                    UnitPrice = 0.01,
                 },
                 new Ingredient{
                     Id = 4,
@@ -59,19 +59,19 @@ namespace api.Data.DataSeeder
                     Id = 8,
                     Name = "Oil",
                     UnitOfMeasure = UOM.teaspoon,
-                    UnitPrice = 0.5,
+                    UnitPrice = 0.2,
                 },
                 new Ingredient{
                     Id = 9,
                     Name = "Olive oil",
                     UnitOfMeasure = UOM.teaspoon,
-                    UnitPrice = 1,
+                    UnitPrice = 0.5,
                 },
                 new Ingredient{
                     Id = 10,
                     Name = "Onions",
                     UnitOfMeasure = UOM.piece,
-                    UnitPrice = 0.3,
+                    UnitPrice = 0.1,
                 },
                 new Ingredient{
                     Id = 11,
@@ -83,7 +83,7 @@ namespace api.Data.DataSeeder
                     Id = 12,
                     Name = "Salt",
                     UnitOfMeasure = UOM.teaspoon,
-                    UnitPrice = 0.1,
+                    UnitPrice = 0.01,
                 },
                 new Ingredient{
                     Id = 13,

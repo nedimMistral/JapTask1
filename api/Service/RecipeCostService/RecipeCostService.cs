@@ -16,7 +16,7 @@ namespace api.Service.RecipeCostService
                 totalPrice += ingredient.Quantity * ingredient.Price;
             }
 
-            return totalPrice;
+            return (double)Math.Round(totalPrice, 2);
         }
     }
 }

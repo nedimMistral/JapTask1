@@ -15,6 +15,7 @@ namespace api
             CreateMap<Category, CategoriesDto>();
             CreateMap<Ingredient, IngredientDto>();
             CreateMap<Recipe, AddRecipeDto>();
+            CreateMap<Recipe, GetRecipeDto>();
             CreateMap<RecipeIngredient, AddRecipeIngredientDto>();
         }
     }

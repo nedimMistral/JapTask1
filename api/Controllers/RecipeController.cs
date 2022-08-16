@@ -27,6 +27,18 @@ namespace api.Controllers
             return Ok(await _recipeService.Create(newRecipe));
         }
 
+        [HttpGet("by-category")]
+        public async Task<ActionResult<ServiceResponse<List<GetRecipeDto>>>> ListByCategory([FromQuery] int categoryId)
+        {
+            return Ok(await _recipeService.GetRecipesByCategory(categoryId));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ServiceResponse<List<GetRecipeDto>>>> GetWithSearch([FromQuery] string searchTerm, [FromQuery] int index, [FromQuery] int categoryId)
+        {
+            return Ok(await _recipeService.GetRecipes(searchTerm, index, categoryId));
+        }
+
         // [HttpGet("{id}")]
         // public async Task<ActionResult<
     }
