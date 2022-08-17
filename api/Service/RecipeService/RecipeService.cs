@@ -25,67 +25,98 @@ namespace api.Service.RecipeService
             _recipeCostSvc = recipeCostSvc;
         }
 
-        public async Task<ActionResult<ServiceResponse<Recipe>>> Create(AddRecipeDto newRecipe)
+        public async Task<ServiceResponse<Recipe>> Create(AddRecipeDto newRecipe)
         {
             var res = new ServiceResponse<Recipe>();
 
-            var dbRecipeIngredients = newRecipe.RecipeIngredients.Select(ri => new RecipeIngredient()
+            try
             {
-                IngredientId = ri.IngredientId,
-                MeasureUnit = ri.MeasureUnit,
-                Quantity = ri.Quantity,
-                Price = ri.Price
-            }).ToList();
+                var dbRecipeIngredients = newRecipe.RecipeIngredients.Select(ri => new RecipeIngredient()
+                {
+                    IngredientId = ri.IngredientId,
+                    MeasureUnit = ri.MeasureUnit,
+                    Quantity = ri.Quantity,
+                    Price = ri.Price
+                }).ToList();
 
-            var recipeRecord = new Recipe
+                var recipeRecord = new Recipe
+                {
+                    Title = newRecipe.Title,
+                    Description = newRecipe.Description,
+                    RecipeIngredients = dbRecipeIngredients,
+                    PrepTimeMinutes = newRecipe.PrepTimeMinutes,
+                    CategoryId = newRecipe.CategoryId,
+                    UserId = newRecipe.UserId,
+                    CreatedAt = DateTime.Now
+                };
+
+                _ctx.Recipes.Add(recipeRecord);
+
+                recipeRecord.Price = _recipeCostSvc.CalculatePrice(dbRecipeIngredients);
+
+                await _ctx.SaveChangesAsync();
+
+                res.Data = recipeRecord;
+            }
+            catch (Exception ex)
             {
-                Title = newRecipe.Title,
-                Description = newRecipe.Description,
-                RecipeIngredients = dbRecipeIngredients,
-                PrepTimeMinutes = newRecipe.PrepTimeMinutes,
-                CategoryId = newRecipe.CategoryId,
-                UserId = newRecipe.UserId,
-                CreatedAt = DateTime.Now
-            };
-
-            _ctx.Recipes.Add(recipeRecord);
-
-            recipeRecord.Price = _recipeCostSvc.CalculatePrice(dbRecipeIngredients);
-
-            await _ctx.SaveChangesAsync();
-
-            res.Data = recipeRecord;
+                res.Success = false;
+                res.Message = ex.Message;
+            }
 
             return res;
         }
 
-        public async Task<ActionResult<ServiceResponse<List<GetRecipeDto>>>> GetRecipesByCategory(int categoryId)
+        public async Task<ServiceResponse<List<GetRecipeDto>>> GetRecipesByCategory(int categoryId)
         {
             var res = new ServiceResponse<List<GetRecipeDto>>();
 
-            var recipeRecords = await _ctx.Recipes
-                .Where(r => r.CategoryId == categoryId)
-                .ToListAsync();
-            
-            res.Data = recipeRecords.Select(r => _mapper.Map<GetRecipeDto>(r))
-                .OrderBy(r => r.Price)
-                .ToList();
-            
-            return res;        
+            try
+            {
+                var recipeRecords = await _ctx.Recipes
+            .Where(r => r.CategoryId == categoryId)
+            .ToListAsync();
+
+                res.Data = recipeRecords.Select(r => _mapper.Map<GetRecipeDto>(r))
+                    .OrderBy(r => r.Price)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+
+                res.Success = false;
+                res.Message = ex.Message;
+            }
+
+
+            return res;
         }
 
-        public async Task<ActionResult<ServiceResponse<List<GetRecipeDto>>>> GetRecipes(string searchTerm, int index, int categoryId)
+        public async Task<ServiceResponse<List<GetRecipeDto>>> SearchRecipes(string searchTerm, int index, int categoryId)
         {
             var res = new ServiceResponse<List<GetRecipeDto>>();
 
-            var recipesRecord = await _ctx.Recipes
+            try
+            {
+                var recipesRecord = await _ctx.Recipes
             .Include(x => x.RecipeIngredients)
             .ThenInclude(y => y.Ingredient)
             .Where(Filter(searchTerm, categoryId))
             .Take(index).ToListAsync();
 
+                int list_count = recipesRecord.Count;
 
-            throw new NotImplementedException();
+                res.Data = recipesRecord.Select(r => _mapper.Map<GetRecipeDto>(r))
+                    .OrderBy(r => r.Price)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                res.Success = false;
+                res.Message = ex.Message;
+            }
+
+            return res;
         }
 
         private static Expression<Func<Recipe, bool>> Filter(string term, int categoryId)
@@ -98,6 +129,37 @@ namespace api.Service.RecipeService
             || x.RecipeIngredients.Any(y => y.Ingredient.Name.ToLower().Contains(term)));
         }
 
+        public async Task<ServiceResponse<GetRecipeDetailsDto>> Details(int id)
+        {
+            var res = new ServiceResponse<GetRecipeDetailsDto>();
 
+            try
+            {
+                var recipeRecord = await _ctx.Recipes
+                                .Include(r => r.RecipeIngredients)
+                                .ThenInclude(ri => ri.Ingredient)
+                                .Include(c => c.Category)
+                                .FirstOrDefaultAsync(r => r.Id == id);
+
+                var ingredients = recipeRecord.RecipeIngredients.Select(ri => new RecipeIngredientDto
+                {
+                    IngredientName = ri.Ingredient.Name,
+                    Quantity = ri.Quantity,
+                    Price = ri.Price,
+                    MeasureUnit = ri.Ingredient.UnitOfMeasure
+                }).ToList();
+
+                res.Data = _mapper.Map<GetRecipeDetailsDto>(recipeRecord);
+                res.Data.Category = recipeRecord.Category.Name;
+                res.Data.Ingredients = ingredients;
+            }
+            catch (Exception ex)
+            {
+                res.Success = false;
+                res.Message = ex.Message;
+            }
+
+            return res;
+        }
     }
 }

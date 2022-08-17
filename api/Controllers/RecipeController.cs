@@ -14,32 +14,41 @@ namespace api.Controllers
     [Route("api/[controller]")]
     public class RecipeController : ControllerBase
     {
-        private readonly IRecipeService _recipeService;
+        private readonly IRecipeService _recipeSvc;
 
-        public RecipeController(IRecipeService recipeService)
+        public RecipeController(IRecipeService recipeSvc)
         {
-            _recipeService = recipeService;
+            _recipeSvc = recipeSvc;
         }
 
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<Recipe>>> AddNew(AddRecipeDto newRecipe)
         {
-            return Ok(await _recipeService.Create(newRecipe));
+            return Ok(await _recipeSvc.Create(newRecipe));
         }
 
-        [HttpGet("by-category")]
+        [HttpGet("ByCategory")]
         public async Task<ActionResult<ServiceResponse<List<GetRecipeDto>>>> ListByCategory([FromQuery] int categoryId)
         {
-            return Ok(await _recipeService.GetRecipesByCategory(categoryId));
+            return Ok(await _recipeSvc.GetRecipesByCategory(categoryId));
         }
 
-        [HttpGet]
+        [HttpGet("Search")]
         public async Task<ActionResult<ServiceResponse<List<GetRecipeDto>>>> GetWithSearch([FromQuery] string searchTerm, [FromQuery] int index, [FromQuery] int categoryId)
         {
-            return Ok(await _recipeService.GetRecipes(searchTerm, index, categoryId));
+            return Ok(await _recipeSvc.SearchRecipes(searchTerm, index, categoryId));
         }
 
-        // [HttpGet("{id}")]
-        // public async Task<ActionResult<
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<GetRecipeDetailsDto>>> GetDetailed(int id)
+        {
+            var res = await _recipeSvc.Details(id);
+
+            if (res.Data == null) {
+                return NotFound(res);
+            }
+
+            return Ok(res);
+        }
     }
 }

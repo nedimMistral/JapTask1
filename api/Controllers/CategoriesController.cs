@@ -14,17 +14,17 @@ namespace api.Controllers
     [Route("api/[controller]")]
     public class CategoriesController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
+        private readonly ICategoryService _categorySvc;
 
-        public CategoriesController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categorySvc)
         {
-            _categoryService = categoryService;
+            _categorySvc = categorySvc;
         }
 
         [HttpGet("GetAll")]
         public async Task<ActionResult<ServiceResponse<List<CategoriesDto>>>> Get([FromQuery] int n)
         {
-            return Ok(await _categoryService.Get(n));
+            return Ok(await _categorySvc.Get(n));
         }
     }
 }
