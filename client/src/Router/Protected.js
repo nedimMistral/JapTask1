@@ -1,15 +1,17 @@
 import React from "react";
-import { Redirect } from "react-router-dom"
+import { Redirect, Route } from "react-router-dom"
 
 import useAuth from "../Hooks/useAuth";
 import { pathGenWithParams, routes } from "./routes";
+// import { pathGenWithParams, routes } from "./routes";
 
-const ProtectedRoute = (children) => {
-    if (!useAuth()) {
-        return <Redirect to={pathGenWithParams(routes.LOGIN)} />
-    }
+const Protected = ({component: Component, path}) => {
+    let isAuthenticated = useAuth();
 
-    return children;
+
+    return ( <Route  exact path={path} render={(props) => {
+        return isAuthenticated ? (<Component {...props}/>) : (<Redirect to={pathGenWithParams(routes.LOGIN)}/>)
+    }}/>)
 }
 
-export default ProtectedRoute;
+export default Protected;

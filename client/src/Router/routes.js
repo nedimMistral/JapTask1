@@ -4,7 +4,7 @@ import { generatePath } from "react-router";
 const routes = {
   LOGIN: {
     id: "LOGIN",
-    path: "/",
+    path: "/login",
   },
   CATEGORIES: {
     id: "CATEGORIES",
@@ -12,11 +12,11 @@ const routes = {
   },
   RECIPES: {
     id: "RECIPES",
-    path: "/categories/:id",
+    path: "/recipes/:id",
   },
   RECIPE_DETAILS: {
     id: "RECIPE_DETAILS",
-    path: "/recipes/:id",
+    path: "/recipes/details/:id",
   },
   RECIPE_CREATE: {
     id: "RECIPE_CREATE",
@@ -35,6 +35,7 @@ function pathGenWithParams(route, params) {
     );
     return "#";
   }
+  console.log("PARAMS:::: ", params.id);
   return generatePath(toPath.path, params);
 }
 

@@ -11,7 +11,7 @@ namespace api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categorySvc;
@@ -21,7 +21,7 @@ namespace api.Controllers
             _categorySvc = categorySvc;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<CategoriesDto>>>> Get([FromQuery] int n)
         {
             return Ok(await _categorySvc.Get(n));

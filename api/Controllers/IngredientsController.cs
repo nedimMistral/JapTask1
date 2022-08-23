@@ -11,7 +11,7 @@ namespace api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class IngredientsController : ControllerBase
     {
         private readonly IIngredientService _ingredientsSvc;

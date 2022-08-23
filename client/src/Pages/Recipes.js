@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const Recipes = () => {
-    return (
-        <div></div>
+   const params = useParams();
+   const categoryId = params.id;
+
+   useEffect(() => {
+    console.log("CATEGORY ID:::: ", categoryId);
+   }, []);
+
+       return (
+        <div>LIST OF RECIPES</div>
     )
 }
 
