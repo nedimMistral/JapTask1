@@ -10,7 +10,7 @@ namespace api.Service.RecipeService
     public interface IRecipeService
     {
         public Task<ServiceResponse<Recipe>> Create(AddRecipeDto newRecipe);
-        public Task<ServiceResponse<List<GetRecipeDto>>> GetRecipesByCategory(int categoryId);
+        public Task<ServiceResponse<List<GetRecipeDto>>> GetRecipesByCategory(int categoryId, int n);
         public Task<ServiceResponse<List<GetRecipeDto>>> SearchRecipes(string searchTerm, int index, int categoryId);
         public Task<ServiceResponse<GetRecipeDetailsDto>> Details(int id);
     }

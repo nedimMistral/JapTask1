@@ -20,15 +20,14 @@ const Login = () => {
 
   const handleSubmit = () => {
     login(values, (resData) => {
-        if (resData === null) {
-            setError(true);
-        } else {
-            localStorage.setItem("_jwtToken", JSON.stringify(resData.data));
-            history.push(pathGenWithParams(routes.CATEGORIES))
-        }
-    })
+      if (resData === null) {
+        setError(true);
+      } else {
+        localStorage.setItem("_jwtToken", JSON.stringify(resData.data));
+        history.push(pathGenWithParams(routes.CATEGORIES));
+      }
+    });
   };
-
 
   return (
     <div className={classes.login}>

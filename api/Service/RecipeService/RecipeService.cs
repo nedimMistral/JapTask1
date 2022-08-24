@@ -67,7 +67,7 @@ namespace api.Service.RecipeService
             return res;
         }
 
-        public async Task<ServiceResponse<List<GetRecipeDto>>> GetRecipesByCategory(int categoryId)
+        public async Task<ServiceResponse<List<GetRecipeDto>>> GetRecipesByCategory(int categoryId, int n)
         {
             var res = new ServiceResponse<List<GetRecipeDto>>();
 
@@ -79,6 +79,7 @@ namespace api.Service.RecipeService
 
                 res.Data = recipeRecords.Select(r => _mapper.Map<GetRecipeDto>(r))
                     .OrderBy(r => r.Price)
+                    .Take(n)
                     .ToList();
             }
             catch (Exception ex)

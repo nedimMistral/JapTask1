@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        <Route exact path="/login" render={() => {
+        <Route exact path="/" render={() => {
           return isLogged ? (<Redirect to={pathGenWithParams(routes.CATEGORIES)}/>) : <Login/>
         }} />
       </Switch>

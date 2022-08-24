@@ -28,9 +28,9 @@ namespace api.Controllers
         }
 
         [HttpGet("ByCategory")]
-        public async Task<ActionResult<ServiceResponse<List<GetRecipeDto>>>> ListByCategory([FromQuery] int categoryId)
+        public async Task<ActionResult<ServiceResponse<List<GetRecipeDto>>>> ListByCategory([FromQuery] int id, [FromQuery] int n)
         {
-            return Ok(await _recipeSvc.GetRecipesByCategory(categoryId));
+            return Ok(await _recipeSvc.GetRecipesByCategory(id, n));
         }
 
         [HttpGet("Search")]

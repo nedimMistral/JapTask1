@@ -1,9 +1,10 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import { List, ListItem } from "@mui/material";
-import classes from "./CategoriesList.module.css";
-import { useHistory } from "react-router-dom";
 import { pathGenWithParams, routes } from "../../Router/routes";
+
+import classes from "./CategoriesList.module.css";
 
 
 const CategoriesList = (props) => {

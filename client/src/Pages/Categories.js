@@ -22,10 +22,10 @@ const Categories = () => {
 
   return (
     <Box className={classes.box}>
-      <Typography className={classes.title}>Categories</Typography>
+      <Typography className={classes.title} variant="h4">Categories</Typography>
       <CategoriesList categories={categories} />
       {categories.length >= shown ? (
-        <Button onClick={showMoreHandler}>Show more</Button>
+         <Button onClick={showMoreHandler} className={classes.button}>Show more</Button>
       ) : (
         ""
       )}
