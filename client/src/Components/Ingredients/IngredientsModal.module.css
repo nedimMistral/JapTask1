@@ -1,0 +1,19 @@
+.autocomplete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-text {
+    font-weight: bold;
+}
+
+.grid {
+    margin: 5px 5px;
+}
+
+.add-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

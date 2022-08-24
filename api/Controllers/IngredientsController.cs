@@ -21,7 +21,7 @@ namespace api.Controllers
             _ingredientsSvc = ingredientsSvc;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<IngredientDto>>>> Get()
         {
             return Ok(await _ingredientsSvc.Get());
