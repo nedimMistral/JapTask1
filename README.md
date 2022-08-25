@@ -7,10 +7,10 @@ The project was developed using `.NET version 6` with `SQL Server Express` for b
 
 ## Prerequisites 
 In order to run the project make sure you have the following installed on your machine:
-> .NET 6.0 framework [Can be downloaded here](https://dotnet.microsoft.com/en-us/download)
-> SQL Server Express [Link to download](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
-> .NET Entity framework
-> Node environment
+1. .NET 6.0 framework [Can be downloaded here](https://dotnet.microsoft.com/en-us/download)
+2. SQL Server Express [Link to download](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+3. .NET Entity framework
+4. Node environment
 
 ### Setup project
 1. Make sure you have cloned the repository on your local machine and move to project root `/jap-task`.
