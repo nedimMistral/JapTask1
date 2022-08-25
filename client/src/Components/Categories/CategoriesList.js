@@ -2,8 +2,8 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import { List, ListItem } from "@mui/material";
-import { pathGenWithParams, routes } from "../../Router/routes";
 
+import { pathGenWithParams, routes } from "../../Router/routes";
 import classes from "./CategoriesList.module.css";
 
 

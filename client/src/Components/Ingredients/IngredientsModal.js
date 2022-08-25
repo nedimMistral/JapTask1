@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import {
   Autocomplete,
   Button,
@@ -11,21 +13,11 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { styled } from "@mui/material/styles";
 
-import { useEffect, useState } from "react";
 import { list } from "../../Service/Ingredients";
-
 import classes from "./IngredientsModal.module.css";
-import getUOM from "../../Utils/GetUOM";
+import getUOM from "../../Utils/getUOM";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 
 const IngredientsModal = (props) => {
   const [ingredients, setIngredients] = useState([]);
@@ -38,8 +30,22 @@ const IngredientsModal = (props) => {
     });
   }, []);
 
+  useEffect(() => {
+    if(!props.open) {
+        setValues({});
+    }
+  }, [props.open]);
+
   const handleSelectIngredient = (e, value) => {
-    setValues(value);
+    setValues((prevState) => {
+        return {
+            ...prevState,
+            ingredientName: value.label,
+            ingredientId: value.id,
+            price: value.unitPrice,
+            measureUnit: value.unitOfMeasure,
+        }
+    });
     setSelected(true);
   };
 
@@ -48,14 +54,30 @@ const IngredientsModal = (props) => {
     setSelected(false);
   };
 
+  const handleAddQuantity = (event) => {
+    setValues((prevState) => {
+        return {
+            ...prevState,
+            quantity: event.target.value
+        }
+    })
+  }
+
+  const handleSubmit = () => {
+    props.onSubmit(values);
+    props.onClose();
+  };
+
   return (
     <Dialog
       open={props.open}
       onClose={props.onClose}
       fullWidth={true}
       maxWidth="md"
+      keepMounted={false}
     >
       <DialogContent>
+        <Typography className={classes["header-text"]} variant="h5" >Add ingredient</Typography>
         {ingredients.length > 0 && (
           <Autocomplete
             className={classes.autocomplete}
@@ -76,46 +98,46 @@ const IngredientsModal = (props) => {
           />
         )}
         {selected && values && (
-          <Box>
+          <Box >
             <Grid container spacing={2} className={classes.grid}>
               <Grid item xs={6}>
-                <Typography className={classes["header-text"]}>
+                <Typography >
                   Ingredient name
                 </Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography className={classes["header-text"]}>
+                <Typography >
                   Price
                 </Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography className={classes["header-text"]}>
+                <Typography>
                   Unit of measure
                 </Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography className={classes["header-text"]}>
+                <Typography>
                   Quantity
                 </Typography>
               </Grid>
             </Grid>
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <Typography>{values.label}</Typography>
+                <Typography>{values.ingredientName}</Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography>{values.unitPrice}</Typography>
+                <Typography>{values.price}</Typography>
               </Grid>
               <Grid item xs={2}>
-              <Typography>{getUOM(values.unitOfMeasure)}</Typography>
+              <Typography>{getUOM(values.measureUnit)}</Typography>
               </Grid>
               <Grid item xs={2}>
-              <Input></Input>
+              <Input onChange={handleAddQuantity}/>
               </Grid>
             </Grid>
           </Box>
         )}
-        {selected && (<Button className={classes['add-btn']} disabled={!selected}>Add</Button>)}
+        <Typography align="center">{selected ? <Button className={classes['add-btn']} disabled={!selected} onClick={handleSubmit}>Add</Button> : ""}</Typography>
       </DialogContent>
     </Dialog>
   );

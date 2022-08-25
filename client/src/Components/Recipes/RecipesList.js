@@ -3,8 +3,8 @@ import { useHistory } from "react-router-dom";
 
 import { List, ListItem, ListItemText } from "@mui/material";
 
-import classes from "./RecipesList.module.css";
 import { pathGenWithParams, routes } from "../../Router/routes";
+import classes from "./RecipesList.module.css";
 
 
 const RecipesList = (props) => {

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { Box, Button, Typography } from "@mui/material";
 
+import CategoriesList from "../Components/Categories/CategoriesList";
 import { list } from "../Service/Categories";
 import classes from "./Categories.module.css";
-import CategoriesList from "../Components/Categories/CategoriesList";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);

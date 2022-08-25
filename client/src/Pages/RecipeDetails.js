@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 
 import Recipe from "../Components/Recipes/Recipe";
 import { detailed } from "../Service/Recipes";
-
 import classes from "./RecipeDetails.module.css";
 
 const RecipeDetails = (props) => {

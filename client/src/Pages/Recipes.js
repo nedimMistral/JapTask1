@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { listByCategory, search } from "../Service/Recipes";
 
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import SearchBar from "material-ui-search-bar"
 
+import { listByCategory, search } from "../Service/Recipes";
 import RecipesList from "../Components/Recipes/RecipesList";
 import classes from "./Recipes.module.css";
 import { pathGenWithParams, routes } from "../Router/routes";

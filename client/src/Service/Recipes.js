@@ -30,4 +30,14 @@ const detailed = (id, cb) => {
     })
 }
 
-export { listByCategory, search, detailed };
+const create = (reqData, cb) => {
+    instance
+    .post("/Recipe", reqData)
+    .then((response) => cb(response.data))
+    .catch((err) => {
+        console.log(err);
+        cb(false);
+    })
+}
+
+export { listByCategory, search, detailed, create };

@@ -6,7 +6,7 @@ import {
   TableRow,
 } from "@mui/material";
 
-import getUOM from "../../Utils/GetUOM";
+import getUOM from "../../Utils/getUOM";
 
 import classes from "./IngredientsTable.module.css";
 
